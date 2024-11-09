@@ -68,7 +68,7 @@ public class EditTaskActivity extends AppCompatActivity {
         int hour = timePicker.getCurrentHour();
         int minute = timePicker.getCurrentMinute();
 
-        // Update task in database
+        // Update task in the object
         taskToEdit.setName(taskName);
         taskToEdit.setDescription(taskDescription);
         taskToEdit.setYear(year);
@@ -77,9 +77,10 @@ public class EditTaskActivity extends AppCompatActivity {
         taskToEdit.setHour(hour);
         taskToEdit.setMinute(minute);
 
-        dbHelper.addTask(taskToEdit); // Save updated task
+        // Call updateTask to save the changes in the database
+        dbHelper.updateTask(taskToEdit);
 
         Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT).show();
-        finish();
+        finish(); // Close the activity and return to the previous screen
     }
 }

@@ -1,30 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#ADD8E6">
 
+    <!-- Task Name -->
     <TextView
         android:id="@+id/taskNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task Name"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
+    <!-- Task Description -->
     <TextView
         android:id="@+id/taskDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:text="Task Description"
+        android:layout_below="@id/taskNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
+    <!-- Task Date -->
     <TextView
-        android:id="@+id/taskDeadlineTextView"
+        android:id="@+id/taskDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Deadline"
-        android:textSize="16sp" />
-</LinearLayout>
+        android:text="Date: "
+        android:layout_below="@id/taskDescriptionTextView"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"/>
+
+    <!-- Task Time -->
+    <TextView
+        android:id="@+id/taskTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time: "
+        android:layout_below="@id/taskDateTextView"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"/>
+
+</RelativeLayout>

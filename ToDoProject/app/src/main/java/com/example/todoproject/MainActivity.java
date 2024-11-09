@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskA
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        loadTasks();
+        loadTasks();  // Load pending tasks (not completed)
 
         // FloatingActionButton to add a new task
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskA
 
     // Method to load tasks from the database and display in RecyclerView
     private void loadTasks() {
-        List<Task> tasks = dbHelper.getAllTasks();
+        // Get only pending tasks (not completed)
+        List<Task> tasks = dbHelper.getPendingTasks();  // Modified to get pending tasks
         adapter = new TaskAdapter(tasks, this); // Pass listener for task interactions (edit, delete, complete)
         recyclerView.setAdapter(adapter);
     }
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskA
     public void onCompleteTask(Task task) {
         // Code to mark task as completed
         dbHelper.updateTaskCompletion(task.getId(), true);
-        loadTasks(); // Reload tasks after marking as completed
+        loadTasks(); // Reload tasks after marking as completed (only pending tasks)
         Toast.makeText(this, "Task marked as completed", Toast.LENGTH_SHORT).show();
     }
 }

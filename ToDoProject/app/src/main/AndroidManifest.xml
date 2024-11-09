@@ -42,10 +42,17 @@
             android:theme="@style/Theme.AppCompat.Light">
         </activity>
 
-        <!-- EditTaskActivity (Add this entry) -->
+        <!-- EditTaskActivity -->
         <activity
             android:name=".EditTaskActivity"
             android:label="Edit Task"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
+
+        <!-- TaskDetailActivity (Added here) -->
+        <activity
+            android:name=".TaskDetailActivity"
+            android:label="Task Details"
             android:theme="@style/Theme.AppCompat.Light">
         </activity>
 

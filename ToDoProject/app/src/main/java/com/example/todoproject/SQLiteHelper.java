@@ -72,10 +72,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Get all tasks from the database
-    public List<Task> getAllTasks() {
+    // Get all tasks from the database (for MainActivity)
+    public List<Task> getPendingTasks() {
         List<Task> taskList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_TASKS;
+        String selectQuery = "SELECT * FROM " + TABLE_TASKS + " WHERE " + KEY_COMPLETED + " = 0"; // Get only incomplete tasks
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -98,10 +98,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
         return taskList;
     }
 
-    // Get all completed tasks
+    // Get all completed tasks (for TaskHistoryActivity)
     public List<Task> getCompletedTasks() {
         List<Task> completedTaskList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_TASKS + " WHERE " + KEY_COMPLETED + " = 1";
@@ -127,6 +128,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
         return completedTaskList;
     }
 
@@ -139,11 +141,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(taskId)},
                 null, null, null, null);
 
-        if (cursor != null)
-            cursor.moveToFirst();
-
         Task task = null;
-        if (cursor != null && cursor.getCount() > 0) {
+        if (cursor != null && cursor.moveToFirst()) {
             task = new Task(
                     cursor.getInt(cursor.getColumnIndex(KEY_ID)),
                     cursor.getString(cursor.getColumnIndex(KEY_NAME)),
@@ -167,6 +166,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_COMPLETED, isCompleted ? 1 : 0);
         db.update(TABLE_TASKS, values, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
+        db.close();
+    }
+
+    // Update task details
+    public void updateTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, task.getName());
+        values.put(KEY_DESCRIPTION, task.getDescription());
+        values.put(KEY_YEAR, task.getYear());
+        values.put(KEY_MONTH, task.getMonth());
+        values.put(KEY_DAY, task.getDay());
+        values.put(KEY_HOUR, task.getHour());
+        values.put(KEY_MINUTE, task.getMinute());
+        values.put(KEY_COMPLETED, task.isCompleted() ? 1 : 0); // In case you're updating the completion status as well
+
+        // Update the task in the database based on the task ID
+        db.update(TABLE_TASKS, values, KEY_ID + " = ?", new String[]{String.valueOf(task.getId())});
+        db.close();
     }
 
     // Delete a task
