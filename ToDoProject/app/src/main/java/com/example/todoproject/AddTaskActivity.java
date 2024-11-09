@@ -2,6 +2,8 @@ package com.example.todoproject;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +21,8 @@ import java.util.Calendar;
 public class AddTaskActivity extends AppCompatActivity {
 
     private EditText taskNameEditText, taskDescriptionEditText;
-    private DatePicker datePicker;
-    private TimePicker timePicker;
-    private Button submitButton;
-
+    private Button selectDateButton, selectTimeButton, submitButton;
+    private int year, month, day, hour, minute;
     private SQLiteHelper dbHelper;
 
     @Override
@@ -34,16 +34,72 @@ public class AddTaskActivity extends AppCompatActivity {
 
         taskNameEditText = findViewById(R.id.taskName);
         taskDescriptionEditText = findViewById(R.id.taskDescription);
-        datePicker = findViewById(R.id.datePicker);
-        timePicker = findViewById(R.id.timePicker);
+        selectDateButton = findViewById(R.id.selectDateButton);
+        selectTimeButton = findViewById(R.id.selectTimeButton);
         submitButton = findViewById(R.id.submitButton);
 
+        // Set up the date button
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
+        // Set up the time button
+        selectTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
+
+        // Set up the submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addTask();
             }
         });
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                AddTaskActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
+                        year = selectedYear;
+                        month = selectedMonth;
+                        day = selectedDayOfMonth;
+                        selectDateButton.setText(day + "/" + (month + 1) + "/" + year); // Set selected date on button
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    private void showTimePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                AddTaskActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+                        hour = selectedHour;
+                        minute = selectedMinute;
+                        selectTimeButton.setText(hour + ":" + (minute < 10 ? "0" + minute : minute)); // Set selected time on button
+                    }
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+        );
+        timePickerDialog.show();
     }
 
     private void addTask() {
@@ -54,12 +110,6 @@ public class AddTaskActivity extends AppCompatActivity {
             Toast.makeText(this, "Task name is mandatory", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year = datePicker.getYear();
-        int hour = timePicker.getCurrentHour();
-        int minute = timePicker.getCurrentMinute();
 
         // Save task to SQLite database
         Task newTask = new Task(taskName, taskDescription, year, month, day, hour, minute, false);
