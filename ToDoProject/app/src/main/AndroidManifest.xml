@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.todoproject">
 
@@ -35,6 +34,21 @@
             android:label="Task History"
             android:theme="@style/Theme.AppCompat.Light">
         </activity>
+
+        <!-- AddTaskActivity -->
+        <activity
+            android:name=".AddTaskActivity"
+            android:label="Add Task"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
+
+        <!-- EditTaskActivity (Add this entry) -->
+        <activity
+            android:name=".EditTaskActivity"
+            android:label="Edit Task"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
+
     </application>
 
 </manifest>

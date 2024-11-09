@@ -18,23 +18,30 @@
     <Button
         android:id="@+id/editButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="71dp"
+        android:background="#00008B"
         android:text="Edit"
-        android:textSize="12sp"/>
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="71dp"
+        android:layout_marginLeft="4dp"
+        android:background="#00008B"
         android:text="Delete"
-        android:textSize="12sp"
-        android:layout_marginLeft="4dp"/>
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/completeButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+
+        android:layout_marginLeft="4dp"
+        android:background="#00008B"
         android:text="Complete"
-        android:textSize="12sp"
-        android:layout_marginLeft="4dp"/>
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
 </LinearLayout>
