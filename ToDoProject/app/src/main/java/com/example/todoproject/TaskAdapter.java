@@ -30,6 +30,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = tasks.get(position);
         holder.taskName.setText(task.getName());
+
+        // Set listener for clicking on the task to show details
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onTaskClick(task);  // New click listener for task item
+        });
+
         holder.editButton.setOnClickListener(v -> {
             if (listener != null) listener.onEditTask(task);
         });
@@ -60,6 +66,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public interface TaskAdapterListener {
+        void onTaskClick(Task task);  // New method for handling task click
         void onEditTask(Task task);
         void onDeleteTask(Task task);
         void onCompleteTask(Task task);

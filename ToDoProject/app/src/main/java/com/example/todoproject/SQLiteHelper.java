@@ -32,6 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Create the tasks table
         String CREATE_TASKS_TABLE = "CREATE TABLE " + TABLE_TASKS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_NAME + " TEXT,"
@@ -47,6 +48,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Drop the old table if it exists and recreate it
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         onCreate(db);
     }
@@ -66,7 +68,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         // Insert the new task and get the task ID
         long id = db.insert(TABLE_TASKS, null, values);
-        task.setId((int) id); // Setting the ID of the task (using autoincrement ID)
+        task.setId((int) id); // Set the ID of the task (using autoincrement ID)
         db.close();
     }
 
@@ -126,6 +128,37 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return completedTaskList;
+    }
+
+    // Get a single task by its ID
+    public Task getTaskById(int taskId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_TASKS,
+                new String[]{KEY_ID, KEY_NAME, KEY_DESCRIPTION, KEY_YEAR, KEY_MONTH, KEY_DAY, KEY_HOUR, KEY_MINUTE, KEY_COMPLETED},
+                KEY_ID + "=?",
+                new String[]{String.valueOf(taskId)},
+                null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Task task = null;
+        if (cursor != null && cursor.getCount() > 0) {
+            task = new Task(
+                    cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                    cursor.getString(cursor.getColumnIndex(KEY_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_YEAR)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_MONTH)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_DAY)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_HOUR)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_MINUTE)),
+                    cursor.getInt(cursor.getColumnIndex(KEY_COMPLETED)) == 1
+            );
+        }
+        cursor.close();
+        db.close();
+        return task;
     }
 
     // Update task completion status

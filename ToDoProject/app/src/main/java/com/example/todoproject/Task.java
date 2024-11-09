@@ -1,5 +1,9 @@
 package com.example.todoproject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class Task {
     private int id;               // Task ID
     private String name;          // Task Name
@@ -116,5 +120,15 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    // Method to get formatted deadline
+    public String getFormattedDeadline() {
+        // Create a Calendar object using the task's year, month, day, hour, and minute
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day, hour, minute, 0); // Month is 0-indexed
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        return sdf.format(calendar.getTime());
     }
 }

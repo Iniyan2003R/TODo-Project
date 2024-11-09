@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskA
     }
 
     @Override
+    public void onTaskClick(Task task) {
+        // Code to show task details
+        Intent intent = new Intent(MainActivity.this, TaskDetailActivity.class);
+        intent.putExtra("task_id", task.getId());  // Pass the task ID to the details activity
+        startActivity(intent);
+    }
+
+    @Override
     public void onEditTask(Task task) {
         // Code to edit task
         Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
