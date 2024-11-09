@@ -17,11 +17,12 @@ public class TaskHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_history);
 
         dbHelper = new SQLiteHelper(this);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);  // Corrected to match the ID in your XML
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Fetch completed tasks and set them in the adapter
         List<Task> completedTasks = dbHelper.getCompletedTasks();
-        adapter = new TaskAdapter(completedTasks, null);
+        adapter = new TaskAdapter(completedTasks, null);  // Pass null for listener since no interaction is needed here
         recyclerView.setAdapter(adapter);
     }
 }

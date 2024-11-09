@@ -4,8 +4,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:background="#ADD8E6"
-    android:layout_marginBottom="8dp"> <!-- Light blue background for each task card -->
-
+    android:layout_marginBottom="8dp">
     <TextView
         android:id="@+id/taskName"
         android:layout_width="0dp"
