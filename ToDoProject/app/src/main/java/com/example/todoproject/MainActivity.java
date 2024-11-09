@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskA
     private void loadTasks() {
         // Get only pending tasks (not completed)
         List<Task> tasks = dbHelper.getPendingTasks();  // Modified to get pending tasks
-        adapter = new TaskAdapter(tasks, this); // Pass listener for task interactions (edit, delete, complete)
+        adapter = new TaskAdapter(tasks, this,false); // Pass listener for task interactions (edit, delete, complete)
         recyclerView.setAdapter(adapter);
     }
 

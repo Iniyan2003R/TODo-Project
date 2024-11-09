@@ -22,7 +22,7 @@ public class TaskHistoryActivity extends AppCompatActivity {
 
         // Fetch completed tasks and set them in the adapter
         List<Task> completedTasks = dbHelper.getCompletedTasks();
-        adapter = new TaskAdapter(completedTasks, null);  // Pass null for listener since no interaction is needed here
+        adapter = new TaskAdapter(completedTasks, null, true);  // Pass true to indicate it's history page
         recyclerView.setAdapter(adapter);
     }
 }
